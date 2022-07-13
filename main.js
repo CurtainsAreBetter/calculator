@@ -115,7 +115,29 @@ function clearButtonAction() {
 }
 
 function equalsButtonAction() {
+    if (currentOperator && lastNumberEntry) {
+        console.log('ye')
+        const ans = operate(currentOperator, Number(lastNumberEntry), Number(screen.textContent));
+        screen.textContent = ans;
+        clearScreenOnNumberPress = true;
+    }
+
+
+    return;
+    //old code
     console.log('=');
+    // take previous number and evaluate with the # on screen
+    // only do this is there is a previous number and an operator
+    if (currentOperator && lastNumberEntry) {
+        // eval answer
+        ans = operate(currentOperator, Number(lastNumberEntry), Number(screen.textContent));
+        // put what's on screen into lastNumber
+        lastNumberEntry = screen.textContent;
+        // update screen with the answer
+        screen.textContent = ans;
+    }
+
+    return;
     // evaluate
     // only evaluate if there's a current operator
     // and
@@ -140,38 +162,24 @@ function equalsButtonAction() {
 }
 
 function operatorButtonAction(e) {
+    operator = e.target.textContent;
+    currentOperator = operator;
+    lastNumberEntry = screen.textContent;
+    clearScreenOnNumberPress = true;
+
+
+
+    //old code
+    return;
+    
+    // the code under here allows for eval at 2nd operator press but only if operator is same type
+    // if not same type it takes on the new type
     currentOperator = e.target.textContent
     if (lastNumberEntry){
-        ans = operate(currentOperator, Number(lastNumberEntry), Number(screen.textContent))
+        ans = operate(currentOperator, Number(lastNumberEntry), Number(screen.textContent));
         screen.textContent = ans;
+        currentOperator = '';
     }
     lastNumberEntry = screen.textContent;
     clearScreenOnNumberPress = true;
-
-    return;
-    // this works without multi press funcitonality
-    // update the current operator
-    currentOperator = e.target.textContent;
-    // add current screen to last number
-    lastNumberEntry = screen.textContent;
-    // set screen to clear on number press
-    clearScreenOnNumberPress = true;
-
-
-    return;
-    // get which button of the operators was pressed
-    const operator = e.target.innerText;
-    console.log(operator);
-    // set screen to clear on number press
-    clearScreenOnNumberPress = true;
-    // update global variable: currentOperator
-    currentOperator = operator;
-    // check if an evaluation should be run
-
-
-    // do the operation
-    // update the screen  
-    
-    // clear the previous # entry
-    // don't set screen to clear
 }
