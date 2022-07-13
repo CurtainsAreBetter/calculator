@@ -119,6 +119,11 @@ function equalsButtonAction() {
 }
 
 function operatorButtonAction(e) {
+    // get which button of the operators was pressed
     const operator = e.target.innerText;
     console.log(operator);
+    // update global variable: currentOperator
+    currentOperator = operator;
+    // set screen to clear on number press
+    clearScreenOnNumberPress = true;
 }
