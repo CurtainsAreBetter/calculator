@@ -116,14 +116,62 @@ function clearButtonAction() {
 
 function equalsButtonAction() {
     console.log('=');
+    // evaluate
+    // only evaluate if there's a current operator
+    // and
+    // two numbers to operate with
+    
+    // for future ref:
+    // maybe add a check of clear button press
+    // because what if you enter 100 and hit '+' then 
+    // you hit '='?
+    // you'd possibley get 200, idk yet because I can't test it yet
+    if (currentOperator && lastNumberEntry) {
+        const answer = operate(currentOperator, Number(lastNumberEntry), Number(screen.textContent));
+        
+        // place screen to past entry
+        lastNumberEntry = screen.textContent;
+        //update screen
+        screen.textContent = answer;
+        // set numberpress clear
+        clearScreenOnNumberPress = true;
+
+    }
 }
 
 function operatorButtonAction(e) {
+    currentOperator = e.target.textContent
+    if (lastNumberEntry){
+        ans = operate(currentOperator, Number(lastNumberEntry), Number(screen.textContent))
+        screen.textContent = ans;
+    }
+    lastNumberEntry = screen.textContent;
+    clearScreenOnNumberPress = true;
+
+    return;
+    // this works without multi press funcitonality
+    // update the current operator
+    currentOperator = e.target.textContent;
+    // add current screen to last number
+    lastNumberEntry = screen.textContent;
+    // set screen to clear on number press
+    clearScreenOnNumberPress = true;
+
+
+    return;
     // get which button of the operators was pressed
     const operator = e.target.innerText;
     console.log(operator);
-    // update global variable: currentOperator
-    currentOperator = operator;
     // set screen to clear on number press
     clearScreenOnNumberPress = true;
+    // update global variable: currentOperator
+    currentOperator = operator;
+    // check if an evaluation should be run
+
+
+    // do the operation
+    // update the screen  
+    
+    // clear the previous # entry
+    // don't set screen to clear
 }
