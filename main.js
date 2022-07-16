@@ -246,6 +246,8 @@ function oldoperatorButtonAction(e) {
         clearScreenOnNumberPress = true;
         // set number after operator pressed to false
         numAfterOpSet = false;
+
+        // COMBINE
     }
 }
 
