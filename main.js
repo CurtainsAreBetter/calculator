@@ -40,7 +40,7 @@ function divide(a ,b) {
     //const num = a / b;
     // round
     //const out = Math.round((num + Number.EPSILON) * 10) / 10; 
-    return out;
+    return a /b;
 }
 
 function operate (operator, a, b){
@@ -54,48 +54,21 @@ function operate (operator, a, b){
         case 'divide':
             return divide(a, b);
         default:
-            return 'operator error';
+            return NaN;
     }
 }
+
 
 /*===========================
         GLOBAL VARIABLES
 ============================*/
-        
 const screen = document.querySelector('.screen');
-let clearScreenOnNumberPress = true; 
-// equation object
+let listenForNumberPress = true;
 const eq = {
-    leftSide: '',
-    rightSide: '',
+    leftSide: NaN,
+    rightSide: NaN,
     operator: ''
 }
-
-numAfterOpSet = false;
-    
-/*======================================
-        Event Handler declarations 
-========================================*/
-// Number buttons
-document.querySelectorAll('.number')
-        .forEach((num) => {
-            num.addEventListener('click', numberButtonAction);
-        });
-
-// clear button
-document.querySelector('#clear')
-        .addEventListener('click', clearButtonAction);
-
-// equals button
-document.querySelector('#equals')
-        .addEventListener('click', equalsButtonAction);
-
-// Operator buttons
-document.querySelectorAll('.operator')
-        .forEach((op) => {
-            op.addEventListener('click', operatorButtonAction);
-        });
-
 
 /*=================================
             Utility Functions
@@ -104,165 +77,124 @@ function clearScreen() {
     screen.innerText = '';
 }
 
-function equate () {
-    // check if possible
-    for (key in eq) {
-        if (!eq[key]) return screen.innerText;
-    }
-    // get answer, clear right side, set left side to answer, return answer
-    const ans = operate(eq.operator, Number(eq.leftSide), Number(eq.rightSide));
-    eq.rightSide = '';
-    eq.leftSide = ans;
-    // clear operator
+function reset() {
+    clearScreen();
+    eq.leftSide = NaN;
+    eq.rightSide = NaN;
     eq.operator = '';
-    // set screen to clear on number press
-    clearScreenOnNumberPress = true;
-    numAfterOpSet = false;
+    listenForNumberPress = true;
+}
+
+function equate() {
+
+    const ans = operate(eq.operator, Number(eq.leftSide), Number(eq.rightSide));
+    // check if operate could run
+    if (!ans) {
+        // debug
+        console.log('operate could not provide a number');
+        console.log(eq);
+        return;
+    }
+    // if you can't get an answer, nothing happens
+    // Otherwise...
+    // reset without clearing the screen and update leftSide
+    eq.rightSide = NaN;
+    eq.leftSide = ans;
+    eq.operator = '';
+    listenForNumberPress = true;
+
+    // return answer
     return ans;
 }
 
-// NOTE TO SELF
-// clearScreenOnNum and numAfterOp
-// I think I can combine them...
-// read through the code once you've got this working
-
-/* ==================================
-             Button Actions
-=====================================*/
-
 function numberButtonAction(e) {
-    if (!numAfterOpSet) {
-        numAfterOpSet = true;
-    }
-    if(clearScreenOnNumberPress) {
+    if (listenForNumberPress) {
         clearScreen();
-        clearScreenOnNumberPress = false;
+        listenForNumberPress = false;
     }
-    console.log(e.target.innerText);
-    screen.innerText += e.target.innerText;
-}
-
-function clearButtonAction() {
-    clearScreen();
-    // reset eq obj
-    for (const key in eq) {eq[key] = '';}
+    // if statement to future proof for key press addon
+    if (typeof e == 'object') {
+        screen.innerText += e.target.innerText;
+    } else {
+        screen.innerText += e;
+    }
 }
 
 function equalsButtonAction() {
-    // get right side
-    // only get right side if there's an operator
+    // set .rightSide if operator has been set
     if (eq.operator) {
         eq.rightSide = screen.innerText;
     }
-    if (!numAfterOpSet) {
-        console.log('skipped because no number after operater press');
-        return;
+
+    console.log('equate called by equalsButtonAction()');
+    const ans = equate();
+    if (ans) {
+        screen.innerText = ans;
     }
-    const answer = equate();
-    screen.innerText = answer;
-    // debug
-    if (answer) {
-        console.log(answer);
-    } else {console.log('Nothing to equate.');}
 }
 
-/* BUG
-    you do an equation
-
-    you enter a number, new operator, new number, then equals and oyu get your answer
-
-    if you don't hit clear, and instead enter a new number
-    that number is not saved
-    instead the old answer is saved`
-*/
 function operatorButtonAction(e) {
-    const enteredOperator = e.target.id;
-    
-    if (eq.leftSide) {
-        // if left side has content
-        // check if an operator has been chosen and if a number has been entered afterwards
-        if (eq.operator && numAfterOpSet) {
-            // if so
-            // set rightSide, equate, update screen, set new operator, and set numAfterOpSet to false
-            eq.rightSide = screen.innerText;
-            screen.innerText = equate();
-            console.log('chain gang');
-            console.log(enteredOperator);
-            eq.operator = enteredOperator;
-            numAfterOpSet = false;
-        } else {
-            // no operator has been chosen yes or number hasn't been entered yet
-            // either way, change the operator and...
-            // set numAfterOpSet to false
-            // set clear screen on number to true
-            console.log('wha');
-            eq.operator = enteredOperator;
-            numAfterOpSet = false;
-            clearScreenOnNumberPress = true;
-        }
+    // if statement to future proof for keypress addon
+    if (typeof e == 'object') {
+        enteredOperator = e.target.id;
     } else {
-        // if there's no number on the left side
-        // check if there's a number on the screen
+        // switch case statement to convert
+        // key to correct string
+    }
+
+    // if left side empty and screen has content
+    if (!eq.leftSide) {
         if (screen.innerText) {
-            // if number on the screen, add it to the left side
+            // maybe try an && later but for now I'm worried it could mess with the else
             eq.leftSide = screen.innerText;
-            // set operator
             eq.operator = enteredOperator;
-            // set numAfterOpSet and clearScreenOnNumberPress
-            numAfterOpSet = false;
-            clearScreenOnNumberPress = true;
-        }
-    }
-}
-
-function oldoperatorButtonAction(e) {
-    if (eq.leftSide) {
-        // if left side has content
-        // check if operator has data
-        // no operator means an equation has just run (or clear was run)
-        if (eq.operator && numAfterOpSet) {
-            // if there's an operator
-            // and a number has been entered after setting that operator (i.e operator wasn't just being changed)
-            // set right side
-            eq.rightSide = screen.innerText;
-            // equate
-            screen.innerText = equate();
-
-        } else {
-            // if no operator
-            // add operator... 
-            // and set number entry after operator entry to false
-            eq.operator = e.target.id;
-            numAfterOpSet = false;
-        }
-
+            listenForNumberPress = true;   
+        } 
     } else {
-        // if left side is empty
-        // put what's on the screen into left side
-        eq.leftSide = screen.innerText;
-        // set the operator
-        eq.operator = e.target.id;
-        // set the screen to clear on press
-        clearScreenOnNumberPress = true;
-        // set number after operator pressed to false
-        numAfterOpSet = false;
-
-        // COMBINE
+        // if left side has content
+        // check for operator and that a number has been entered since the last operator call
+        if (eq.operator && !listenForNumberPress) {
+            console.log('chain triggered');
+            // set rightSide 
+            eq.rightSide = screen.innerText;
+            screen.innerText = equate();
+            eq.operator = enteredOperator;
+        } else {
+            //  no operator has been pressed but there IS a left side entry
+            // this would be caused by an equals statement
+            if (!(screen.innerText == eq.leftSide)) {
+                // checks if the number on the screen is the same as on the leftSide
+                // if not, change the leftSide to what's on the screen
+                eq.leftSide = screen.innerText;
+            }
+            eq.operator = enteredOperator;
+            listenForNumberPress = true;
+        }
     }
 }
 
 
-clearButtonAction();
+/*======================================
+        Event Handler declarations 
+========================================*/
+// Numbers
+document.querySelectorAll('.number')
+        .forEach((num) => {
+            num.addEventListener('click',
+            numberButtonAction);
+        });
 
+// Clear
+document.querySelector('#clear')
+        .addEventListener('click', reset);
 
-/*
-What to look into...
+// Equals
+document.querySelector('#equals')
+        .addEventListener('click', equalsButtonAction);
 
-- numAfterOpSet and clearScreenOnNumberPress
-  -> Can you consolidate this into a single variable?
-
-- Variable casting
-
-- equate function
-
-*/
+// Operators
+document.querySelectorAll('.operator')
+        .forEach((op) => {
+            op.addEventListener('click',
+            operatorButtonAction);
+        });
