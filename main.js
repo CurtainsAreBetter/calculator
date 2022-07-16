@@ -102,7 +102,7 @@ function clearScreen() {
 function equate () {
     // check if possible
     for (key in eq) {
-        if (!eq[key]) return;
+        if (!eq[key]) return screen.innerText;
     }
     // get answer, clear right side, set left side to answer, return answer
     const ans = operate(eq.operator, Number(eq.leftSide), Number(eq.rightSide));
@@ -112,8 +112,14 @@ function equate () {
     eq.operator = '';
     // set screen to clear on number press
     clearScreenOnNumberPress = true;
+    numAfterOpSet = false;
     return ans;
 }
+
+// NOTE TO SELF
+// clearScreenOnNum and numAfterOp
+// I think I can combine them...
+// read through the code once you've got this working
 
 /* ==================================
              Button Actions
@@ -139,7 +145,10 @@ function clearButtonAction() {
 
 function equalsButtonAction() {
     // get right side
-    eq.rightSide = screen.innerText;
+    // only get right side if there's an operator
+    if (eq.operator) {
+        eq.rightSide = screen.innerText;
+    }
     const answer = equate();
     screen.innerText = answer;
     // debug
@@ -150,6 +159,46 @@ function equalsButtonAction() {
 
 
 function operatorButtonAction(e) {
+    const enteredOperator = e.target.id;
+    
+    if (eq.leftSide) {
+        // if left side has content
+        // check if an operator has been chosen and if a number has been entered afterwards
+        if (eq.operator && numAfterOpSet) {
+            // if so
+            // set rightSide, equate, update screen, set new operator, and set numAfterOpSet to false
+            eq.rightSide = screen.innerText;
+            screen.innerText = equate();
+            console.log('chain gang');
+            console.log(enteredOperator);
+            eq.operator = enteredOperator;
+            numAfterOpSet = false;
+        } else {
+            // no operator has been chosen yes or number hasn't been entered yet
+            // either way, change the operator and...
+            // set numAfterOpSet to false
+            // set clear screen on number to true
+            console.log('wha');
+            eq.operator = enteredOperator;
+            numAfterOpSet = false;
+            clearScreenOnNumberPress = true;
+        }
+    } else {
+        // if there's no number on the left side
+        // check if there's a number on the screen
+        if (screen.innerText) {
+            // if number on the screen, add it to the left side
+            eq.leftSide = screen.innerText;
+            // set operator
+            eq.operator = enteredOperator;
+            // set numAfterOpSet and clearScreenOnNumberPress
+            numAfterOpSet = false;
+            clearScreenOnNumberPress = true;
+        }
+    }
+}
+
+function oldoperatorButtonAction(e) {
     if (eq.leftSide) {
         // if left side has content
         // check if operator has data
