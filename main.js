@@ -176,7 +176,8 @@ function operatorButtonAction(e) {
 function keyDownAction(e) {
     const key = e.key;
     // numbers 
-    if (Number(key)) {
+    if (Number(key) || key == 0) {
+        numberButtonAction(key);
     }
 }
 
