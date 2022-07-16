@@ -66,6 +66,8 @@ const eq = {
     operator: ''
 }
 
+// side actively taking input
+leftSideActive = true;
     
 /*======================================
         Event Handler declarations 
@@ -98,6 +100,20 @@ function clearScreen() {
     screen.innerText = '';
 }
 
+function equate () {
+    // check if possible
+    for (key in eq) {
+        if (!eq[key]) return;
+    }
+    // get answer, clear right side, set left side to answer, return answer
+    const ans = operate(eq.operator, Number(eq.leftSide), Number(eq.rightSide));
+    eq.rightSide = '';
+    eq.leftSide = ans;
+    // clear operator
+    eq.operator = '';
+    return ans;
+}
+
 /* ==================================
              Button Actions
 =====================================*/
@@ -118,17 +134,40 @@ function clearButtonAction() {
 }
 
 function equalsButtonAction() {
-    if (eq.leftSide && eq.rightSide && eq.operator) {
-        const ans = operate(eq.operator, Number(eq.leftSide), Number(eq.rightSide));
-        screen.innerText = ans;
-    }
-    console.log(ans);
+    const answer = equate();
+    if (answer) {
+        console.log(answer);
+    } else {console.log('Nothing to equate.');}
 }
 
 
 function operatorButtonAction(e) {
+    if (leftSideActive) {
+        // get screen an dput it in eq.leftSide
+        eq.leftSide = screen.innerText;
+        // update given operator
+        eq.operator = e.target.id;
+        // set left side to inactive
+        leftSideActive = false;
+    }
+    else {
+        // left side not active meaning it was entered
+        // check if right side already have info inside of it
+        if (eq.rightSide) {
+            // if it does, equate, put answer into left side, clear right side, set eq.op to new operator
+            const ans = operate(eq.operator, Number(eq.leftSide), Number(eq.rightSide));
+            eq.leftSide = ans;
+            eq.rightSide = '';
+            eq.operator = e.target.id;
+        }
+        else {
+            // left side not active, right side empty (happens after an answer is given)
+        }
+    }
+
+
     // update operator
-    eq.operator = e.target.id;
+    //eq.operator = e.target.id;
 }
 
 
