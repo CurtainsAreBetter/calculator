@@ -58,8 +58,6 @@ function operate (operator, a, b){
 ============================*/
         
 const screen = document.querySelector('.screen');
-let currentOperator; // see operate function for acceptable values
-let screenMemory;
 let clearScreenOnNumberPress = true; 
 // equation object
 const eq = {
@@ -67,6 +65,7 @@ const eq = {
     rightSide: '',
     operator: ''
 }
+
     
 /*======================================
         Event Handler declarations 
@@ -115,19 +114,21 @@ function numberButtonAction(e) {
 function clearButtonAction() {
     clearScreen();
     // reset eq obj
-    for (const key in eq) {
-        eq[key] = '';
-    }
+    for (const key in eq) {eq[key] = '';}
 }
 
 function equalsButtonAction() {
-    ans = operate(eq.operator, Number(eq.leftSide), Number(eq.rightSide));
+    if (eq.leftSide && eq.rightSide && eq.operator) {
+        const ans = operate(eq.operator, Number(eq.leftSide), Number(eq.rightSide));
+        screen.innerText = ans;
+    }
     console.log(ans);
 }
 
 
 function operatorButtonAction(e) {
-    return;
+    // update operator
+    eq.operator = e.target.id;
 }
 
 
