@@ -237,25 +237,4 @@ function oldoperatorButtonAction(e) {
 }
 
 
-
-
-/*
-                OUTLINE
- - Calculator should be able to handle standard input (num) (operator) (num) equals-sign 
-
- - Pressing operator to create a chain equation
-    - When user has entered a number, an operator, another number, and then an operator
-    - The equation should be evaluated
-    - its answer should be set to the 'left side' of the equation
-    - user should be able to then change the operator they chose without effecting this left side
-    - up until a number is entered
-
-
-                    BETTER OUTLINE
- - basic equations x (op) y = ans
- - chain equations a (op1) b (op2) c (op3) d = ans
-                - a (op1) b ans is presented on op2 key press
-                - calc waits for a number input before being willing to change (screenMemory)
-
-*/
 clearButtonAction();
