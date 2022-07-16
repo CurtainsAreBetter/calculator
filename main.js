@@ -66,8 +66,7 @@ const eq = {
     operator: ''
 }
 
-// side actively taking input
-leftSideActive = true;
+numAfterOpSet = false;
     
 /*======================================
         Event Handler declarations 
@@ -111,6 +110,8 @@ function equate () {
     eq.leftSide = ans;
     // clear operator
     eq.operator = '';
+    // set screen to clear on number press
+    clearScreenOnNumberPress = true;
     return ans;
 }
 
@@ -119,6 +120,9 @@ function equate () {
 =====================================*/
 
 function numberButtonAction(e) {
+    if (!numAfterOpSet) {
+        numAfterOpSet = true;
+    }
     if(clearScreenOnNumberPress) {
         clearScreen();
         clearScreenOnNumberPress = false;
@@ -134,7 +138,10 @@ function clearButtonAction() {
 }
 
 function equalsButtonAction() {
+    // get right side
+    eq.rightSide = screen.innerText;
     const answer = equate();
+    screen.innerText = answer;
     // debug
     if (answer) {
         console.log(answer);
@@ -146,16 +153,33 @@ function operatorButtonAction(e) {
     if (eq.leftSide) {
         // if left side has content
         // check if operator has data
-        if (eq.)
+        // no operator means an equation has just run (or clear was run)
+        if (eq.operator && numAfterOpSet) {
+            // if there's an operator
+            // and a number has been entered after setting that operator (i.e operator wasn't just being changed)
+            // set right side
+            eq.rightSide = screen.innerText;
+            // equate
+            screen.innerText = equate();
+
+        } else {
+            // if no operator
+            // add operator... 
+            // and set number entry after operator entry to false
+            eq.operator = e.target.id;
+            numAfterOpSet = false;
+        }
 
     } else {
         // if left side is empty
         // put what's on the screen into left side
         eq.leftSide = screen.innerText;
         // set the operator
-        eq.leftSide = e.target.id;
+        eq.operator = e.target.id;
         // set the screen to clear on press
         clearScreenOnNumberPress = true;
+        // set number after operator pressed to false
+        numAfterOpSet = false;
     }
 }
 
@@ -181,3 +205,4 @@ function operatorButtonAction(e) {
                 - calc waits for a number input before being willing to change (screenMemory)
 
 */
+clearButtonAction();
