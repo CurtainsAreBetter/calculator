@@ -40,13 +40,13 @@ function divide(a ,b) {
 
 function operate (operator, a, b){
     switch(operator) {
-        case '+':
+        case 'add':
             return add(a, b);
-        case '−':
+        case 'subtract':
             return subtract(a, b);
-        case '×':
+        case 'multiply':
             return multiply(a, b);
-        case '÷':
+        case 'divide':
             return divide(a, b);
         default:
             return '';
