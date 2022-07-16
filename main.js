@@ -11,31 +11,36 @@ function numVerify(a, b) {
 }
 
 function add(a, b) {
-    if (numVerify(a, b)) {
-        return a + b;
+    if (!numVerify(a, b)) {
+        return NaN;
     }
-    return '';
+    return a + b;
 }
 
 function subtract(a ,b) {
     if (!numVerify(a, b)) {
-        return '';
+        return NaN;
     }
     return a - b;
 }
 
 function multiply(a ,b) {
     if (!numVerify(a, b)) {
-        return '';
+        return NaN;
     }
     return a * b;
 }
 
 function divide(a ,b) {
+    //const ROUNDINGPRECISION = 3;
+    //const rp = 10
     if (!numVerify(a, b)) {
-        return '';
+        return NaN;
     }
-    return a / b;
+    //const num = a / b;
+    // round
+    //const out = Math.round((num + Number.EPSILON) * 10) / 10; 
+    return out;
 }
 
 function operate (operator, a, b){
@@ -49,7 +54,7 @@ function operate (operator, a, b){
         case 'divide':
             return divide(a, b);
         default:
-            return '';
+            return 'operator error';
     }
 }
 
