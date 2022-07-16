@@ -238,3 +238,16 @@ function oldoperatorButtonAction(e) {
 
 
 clearButtonAction();
+
+
+/*
+What to look into...
+
+- numAfterOpSet and clearScreenOnNumberPress
+  -> Can you consolidate this into a single variable?
+
+- Variable casting
+
+- equate function
+
+*/
