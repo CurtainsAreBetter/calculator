@@ -62,7 +62,7 @@ let currentOperator; // see operate function for acceptable values
 let screenMemory;
 let clearScreenOnNumberPress = true; 
 // equation object
-const equation = {
+const eq = {
     leftSide: '',
     rightSide: '',
     operator: ''
@@ -93,7 +93,7 @@ document.querySelectorAll('.operator')
 
 
 /*=================================
-            Utility Funcitons
+            Utility Functions
 ===================================*/
 function clearScreen() {
     screen.innerText = '';
@@ -114,13 +114,15 @@ function numberButtonAction(e) {
 
 function clearButtonAction() {
     clearScreen();
-    // empty global variables
-    currentOperator = ''// see operate function for acceptable values
-    screenMemory = ''
+    // reset eq obj
+    for (const key in eq) {
+        eq[key] = '';
+    }
 }
 
 function equalsButtonAction() {
-    return;
+    ans = operate(eq.operator, Number(eq.leftSide), Number(eq.rightSide));
+    console.log(ans);
 }
 
 
