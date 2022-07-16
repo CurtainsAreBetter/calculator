@@ -61,7 +61,12 @@ const screen = document.querySelector('.screen');
 let currentOperator; // see operate function for acceptable values
 let screenMemory;
 let clearScreenOnNumberPress = true; 
-
+// equation object
+const equation = {
+    leftSide: '',
+    rightSide: '',
+    operator: ''
+}
     
 /*======================================
         Event Handler declarations 
