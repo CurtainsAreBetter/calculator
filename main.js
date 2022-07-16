@@ -173,6 +173,12 @@ function operatorButtonAction(e) {
     }
 }
 
+function keyDownAction(e) {
+    const key = e.key;
+    // numbers 
+    if (Number(key)) {
+    }
+}
 
 /*======================================
         Event Handler declarations 
@@ -198,3 +204,6 @@ document.querySelectorAll('.operator')
             op.addEventListener('click',
             operatorButtonAction);
         });
+
+// Keypress
+document.addEventListener('keydown', keyDownAction);
