@@ -166,7 +166,15 @@ function equalsButtonAction() {
     } else {console.log('Nothing to equate.');}
 }
 
+/* BUG
+    you do an equation
 
+    you enter a number, new operator, new number, then equals and oyu get your answer
+
+    if you don't hit clear, and instead enter a new number
+    that number is not saved
+    instead the old answer is saved`
+*/
 function operatorButtonAction(e) {
     const enteredOperator = e.target.id;
     
