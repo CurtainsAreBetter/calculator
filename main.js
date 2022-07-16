@@ -14,26 +14,26 @@ function add(a, b) {
     if (numVerify(a, b)) {
         return a + b;
     }
-    return 'ERROR';
+    return '';
 }
 
 function subtract(a ,b) {
     if (!numVerify(a, b)) {
-        return 'ERROR'
+        return '';
     }
     return a - b;
 }
 
 function multiply(a ,b) {
     if (!numVerify(a, b)) {
-        return 'ERROR'
+        return '';
     }
     return a * b;
 }
 
 function divide(a ,b) {
     if (!numVerify(a, b)) {
-        return 'ERROR'
+        return '';
     }
     return a / b;
 }
@@ -49,7 +49,7 @@ function operate (operator, a, b){
         case '÷':
             return divide(a, b);
         default:
-            return 'ERROR';
+            return '';
     }
 }
 
