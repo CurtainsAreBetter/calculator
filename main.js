@@ -149,6 +149,10 @@ function equalsButtonAction() {
     if (eq.operator) {
         eq.rightSide = screen.innerText;
     }
+    if (!numAfterOpSet) {
+        console.log('skipped because no number after operater press');
+        return;
+    }
     const answer = equate();
     screen.innerText = answer;
     // debug
