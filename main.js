@@ -56,12 +56,18 @@ function operate (operator, a, b){
 /*===========================
         GLOBAL VARIABLES
 ============================*/
-
+        
 const screen = document.querySelector('.screen');
 let currentOperator; // see operate function for acceptable values
 let screenMemory;
 let clearScreenOnNumberPress = true; 
 
+// AMO meant to be used for chain equations
+let allowMemoryOverwrite = true;
+// show if (num [op] num) pattern has been fulfilled
+let chainActive = false;
+
+    
 /*======================================
         Event Handler declarations 
 ========================================*/
@@ -98,6 +104,7 @@ function clearScreen() {
 =====================================*/
 
 function numberButtonAction(e) {
+    if (allowMemoryOverwrite) allowMemoryOverwrite = false;
     if(clearScreenOnNumberPress) {
         clearScreen();
         clearScreenOnNumberPress = false;
@@ -112,6 +119,7 @@ function clearButtonAction() {
     currentOperator = ''// see operate function for acceptable values
     screenMemory = ''
 }
+
 
 
 /*
@@ -135,9 +143,6 @@ function clearButtonAction() {
 */
 
 
-
-
-
 function equalsButtonAction() {
     const ans = operate(currentOperator, Number(screenMemory), Number(screen.innerText));
     if (typeof ans == 'number'){
@@ -147,6 +152,24 @@ function equalsButtonAction() {
 
 
 function operatorButtonAction(e) {
+    // on op click, check if 
+    //   - memory is in use
+    //   - memory overwrite is allowed
+    if (screenMemory && allowMemoryOverwrite) {
+        // a chain is being created
+        // equate the memory against the screen and set that as the new memory
+        // using the previously set operator
+        const ans = operate(currentOperator, Number(screenMemory), Number(screen.innerText))
+        // set memory
+        screenMemory = ans;
+        // don't allow for screenMemoryOverwrite until a number key press (see numberButtonAction)
+        allowMemoryOverwrite = false;
+
+        // update screen
+        // als what sets amo to true?
+    }
+    
+    
     //load current screen to screenMemory
     screenMemory = screen.innerText;
     // clear screen on the next number click
