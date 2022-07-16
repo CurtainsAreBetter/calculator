@@ -135,6 +135,7 @@ function clearButtonAction() {
 
 function equalsButtonAction() {
     const answer = equate();
+    // debug
     if (answer) {
         console.log(answer);
     } else {console.log('Nothing to equate.');}
@@ -142,32 +143,20 @@ function equalsButtonAction() {
 
 
 function operatorButtonAction(e) {
-    if (leftSideActive) {
-        // get screen an dput it in eq.leftSide
+    if (eq.leftSide) {
+        // if left side has content
+        // check if operator has data
+        if (eq.)
+
+    } else {
+        // if left side is empty
+        // put what's on the screen into left side
         eq.leftSide = screen.innerText;
-        // update given operator
-        eq.operator = e.target.id;
-        // set left side to inactive
-        leftSideActive = false;
+        // set the operator
+        eq.leftSide = e.target.id;
+        // set the screen to clear on press
+        clearScreenOnNumberPress = true;
     }
-    else {
-        // left side not active meaning it was entered
-        // check if right side already have info inside of it
-        if (eq.rightSide) {
-            // if it does, equate, put answer into left side, clear right side, set eq.op to new operator
-            const ans = operate(eq.operator, Number(eq.leftSide), Number(eq.rightSide));
-            eq.leftSide = ans;
-            eq.rightSide = '';
-            eq.operator = e.target.id;
-        }
-        else {
-            // left side not active, right side empty (happens after an answer is given)
-        }
-    }
-
-
-    // update operator
-    //eq.operator = e.target.id;
 }
 
 
