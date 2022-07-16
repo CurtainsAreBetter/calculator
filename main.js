@@ -59,7 +59,7 @@ function operate (operator, a, b){
 
 const screen = document.querySelector('.screen');
 let currentOperator; // see operate function for acceptable values
-let lastNumberEntry;
+let screenMemory;
 let clearScreenOnNumberPress = true; 
 
 /*======================================
@@ -90,7 +90,7 @@ document.querySelectorAll('.operator')
             Utility Funcitons
 ===================================*/
 function clearScreen() {
-    screen.textContent = '';
+    screen.innerText = '';
 }
 
 /* ==================================
@@ -103,22 +103,45 @@ function numberButtonAction(e) {
         clearScreenOnNumberPress = false;
     }
     console.log(e.target.innerText);
-    screen.textContent += e.target.innerText;
+    screen.innerText += e.target.innerText;
 }
 
 function clearButtonAction() {
     clearScreen();
     // empty global variables
     currentOperator = ''// see operate function for acceptable values
-    lastNumberEntry = ''
-    clearScreenOnNumberPress = true;
+    screenMemory = ''
 }
 
+
 function equalsButtonAction() {
-    if (currentOperator && lastNumberEntry) {
+    const ans = operate(currentOperator, Number(screenMemory), Number(screen.innerText));
+    if (typeof ans == 'number'){
+        screen.innerText = ans;
+    }
+}
+
+
+function operatorButtonAction(e) {
+    //load current screen to screenMemory
+    screenMemory = screen.innerText;
+    // clear screen on the next number click
+    clearScreenOnNumberPress = true;
+    // save operator 
+    currentOperator = e.target.innerText;
+}
+
+
+
+
+
+
+function oldequalsButtonAction() {
+    if (currentOperator && screenMemory) {
         console.log('ye')
-        const ans = operate(currentOperator, Number(lastNumberEntry), Number(screen.textContent));
-        screen.textContent = ans;
+        const ans = operate(currentOperator, Number(screenMemory), Number(screen.innerText));
+        screenMemory = screen.innerText;
+        screen.innerText = ans;
         clearScreenOnNumberPress = true;
     }
 
@@ -128,13 +151,13 @@ function equalsButtonAction() {
     console.log('=');
     // take previous number and evaluate with the # on screen
     // only do this is there is a previous number and an operator
-    if (currentOperator && lastNumberEntry) {
+    if (currentOperator && screenMemory) {
         // eval answer
-        ans = operate(currentOperator, Number(lastNumberEntry), Number(screen.textContent));
+        ans = operate(currentOperator, Number(screenMemory), Number(screen.innerText));
         // put what's on screen into lastNumber
-        lastNumberEntry = screen.textContent;
+        screenMemory = screen.innerText;
         // update screen with the answer
-        screen.textContent = ans;
+        screen.innerText = ans;
     }
 
     return;
@@ -148,23 +171,23 @@ function equalsButtonAction() {
     // because what if you enter 100 and hit '+' then 
     // you hit '='?
     // you'd possibley get 200, idk yet because I can't test it yet
-    if (currentOperator && lastNumberEntry) {
-        const answer = operate(currentOperator, Number(lastNumberEntry), Number(screen.textContent));
+    if (currentOperator && screenMemory) {
+        const answer = operate(currentOperator, Number(screenMemory), Number(screen.innerText));
         
         // place screen to past entry
-        lastNumberEntry = screen.textContent;
+        screenMemory = screen.innerText;
         //update screen
-        screen.textContent = answer;
+        screen.innerText = answer;
         // set numberpress clear
         clearScreenOnNumberPress = true;
 
     }
 }
 
-function operatorButtonAction(e) {
-    operator = e.target.textContent;
+function oldoperatorButtonAction(e) {
+    operator = e.target.innerText;
     currentOperator = operator;
-    lastNumberEntry = screen.textContent;
+    screenMemory = screen.innerText;
     clearScreenOnNumberPress = true;
 
 
@@ -174,12 +197,12 @@ function operatorButtonAction(e) {
     
     // the code under here allows for eval at 2nd operator press but only if operator is same type
     // if not same type it takes on the new type
-    currentOperator = e.target.textContent
-    if (lastNumberEntry){
-        ans = operate(currentOperator, Number(lastNumberEntry), Number(screen.textContent));
-        screen.textContent = ans;
+    currentOperator = e.target.innerText
+    if (screenMemory){
+        ans = operate(currentOperator, Number(screenMemory), Number(screen.innerText));
+        screen.innerText = ans;
         currentOperator = '';
     }
-    lastNumberEntry = screen.textContent;
+    screenMemory = screen.innerText;
     clearScreenOnNumberPress = true;
 }
