@@ -12,7 +12,6 @@ body {
     height: 60%;
     
     
-    border: 4px solid darkslategrey;
     border-radius: 6px;
     /*border-bottom-width: 2px;
     border-right-width: 2px;*/
@@ -21,6 +20,7 @@ body {
     display: grid;
     grid-template-columns: 24% 24% 24% 4% 24%;
     grid-template-rows: 11% 1% 11% 11% 11% 11% 11% 11% 11% 11%;
+    gap: 2px;
 }
 .screen {
     /* I wanted to use a DSEG font but idk how to use custom fonts as of right now and I'm pretty sure I'll learn later anyways so I'll leave it till then */
@@ -33,6 +33,10 @@ body {
     grid-row-end: 2;
     text-align: right;
     font-size: 100%;
+    background-color: lightgray;
+    border-radius: 2px;
+    border: solid 1px darkgrey;
+    
 }
 
 #n7, #n8, #n9{
