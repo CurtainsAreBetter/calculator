@@ -208,6 +208,7 @@ function keyDownAction(e) {
     }
     if (key.toUpperCase() == 'C') {
         reset();
+        return;
     }
 }
 
