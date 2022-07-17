@@ -107,6 +107,10 @@ function equate() {
     return ans;
 }
 
+/*=================================
+          Action Functions
+===================================*/
+
 function numberButtonAction(e) {
     if (listenForNumberPress) {
         clearScreen();
@@ -201,6 +205,9 @@ function keyDownAction(e) {
     if (key == '=' || key == 'Enter') {
         equalsButtonAction();
         return;
+    }
+    if (key.toUpperCase() == 'C') {
+        reset();
     }
 }
 
