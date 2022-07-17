@@ -135,6 +135,12 @@ function equalsButtonAction() {
     }
 
     console.log('equate called by equalsButtonAction()');
+    
+    // handle zero
+    if (eq.operator == 'divide' && eq.rightSide == 0) {
+        equate();
+        screen.innerText = "💀";
+    }
     const ans = equate();
     if (ans) {
         screen.innerText = ans;
