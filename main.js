@@ -119,6 +119,9 @@ function decimalAction() {
 
 function backspaceAction() {
     let out = screen.innerText;
+    if (out.length == 1) {
+        listenForNumberPress = true;
+    }
     screen.innerText = out.slice(0, out.length-1);
 }
 
