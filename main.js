@@ -110,6 +110,10 @@ function equate() {
 /*=================================
           Action Functions
 ===================================*/
+function backspaceAction() {
+    let out = screen.innerText;
+    screen.innerText = out.slice(0, out.length-1);
+}
 
 function numberButtonAction(e) {
     if (listenForNumberPress) {
@@ -210,11 +214,18 @@ function keyDownAction(e) {
         reset();
         return;
     }
+    if (key == 'Backspace') {
+        backspaceAction();
+        return;
+    }
 }
 
 /*======================================
         Event Handler declarations 
 ========================================*/
+// Backspace
+document.querySelector('#delete')
+        .addEventListener('click', backspaceAction);
 // Numbers
 document.querySelectorAll('.number')
         .forEach((num) => {
