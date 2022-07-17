@@ -234,11 +234,19 @@ function keyDownAction(e) {
         backspaceAction();
         return;
     }
+    // decimal
+    if (key == '.') {
+        decimalAction();
+        return;
+    }
 }
 
 /*======================================
         Event Handler declarations 
 ========================================*/
+// Decimal
+document.querySelector('#decimal')
+        .addEventListener('click', decimalAction);
 // Backspace
 document.querySelector('#delete')
         .addEventListener('click', backspaceAction);
