@@ -1,0 +1,84 @@
+/*
+.calculator{
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
+}*/
+body {
+    height: 100vh;
+}
+.calculator {
+    width: 60%;
+    height: 60%;
+    
+    
+    border-radius: 6px;
+    /*border-bottom-width: 2px;
+    border-right-width: 2px;*/
+    padding: 2px;
+    /*grid*/
+    display: grid;
+    grid-template-columns: 24% 24% 24% 4% 24%;
+    grid-template-rows: 11% 1% 11% 11% 11% 11% 11% 11% 11% 11%;
+    gap: 2px;
+}
+.screen {
+    /* I wanted to use a DSEG font but idk how to use custom fonts as of right now and I'm pretty sure I'll learn later anyways so I'll leave it till then */
+    font-family: "OCR A Std", monospace; 
+    width: 100%;
+    height: 100%;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 0;
+    grid-row-end: 2;
+    text-align: right;
+    font-size: 100%;
+    background-color: lightgray;
+    border-radius: 2px;
+    border: solid 1px darkgrey;
+    
+}
+
+#n7, #n8, #n9{
+    grid-row-start: 3;
+    grid-row-end: 5;
+}
+#n4, #n5, #n6 {
+    grid-row-start: 5;
+    grid-row-end: 7;
+}
+#n1, #n2, #n3 {
+    grid-row-start: 7;
+    grid-row-end: 9;
+}
+#decimal, #delete, #n0, #equals{
+    grid-row-start: 9;
+    grid-row-end: 11;
+}
+#delete {
+    grid-column-start: 3;
+}
+#n0 {
+    grid-column-start: 2;
+}
+#decimal {
+    grid-column-start: 1;
+}
+#subtract, #equals, #add, #multiply, #divide, #clear {
+    grid-column-start: 5;
+}
+#equals {
+    grid-row-start: 7;
+}
+#subtract {
+    grid-row-start: 6;
+}
+#add {
+    grid-row-start: 5;
+}
+#divide {
+    grid-row-start: 4;
+}
+#multiply {
+    grid-row-start: 3;
+}
