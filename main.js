@@ -114,6 +114,10 @@ function decimalAction() {
     let out = screen.innerText;
     if (!out.includes('.')){
         screen.innerText += '.';
+
+        if (listenForNumberPress) {
+            listenForNumberPress = false;
+        }
     }
 }
 
