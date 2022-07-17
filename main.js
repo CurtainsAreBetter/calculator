@@ -107,6 +107,10 @@ function equate() {
     return ans;
 }
 
+/*=================================
+          Action Functions
+===================================*/
+
 function numberButtonAction(e) {
     if (listenForNumberPress) {
         clearScreen();
@@ -138,8 +142,7 @@ function operatorButtonAction(e) {
     if (typeof e == 'object') {
         enteredOperator = e.target.id;
     } else {
-        // switch case statement to convert
-        // key to correct string
+        enteredOperator = e;
     }
 
     // if left side empty and screen has content
@@ -173,6 +176,41 @@ function operatorButtonAction(e) {
     }
 }
 
+function keyDownAction(e) {
+    const key = e.key;
+    // numbers 
+    if (Number(key) || key == 0) {
+        numberButtonAction(key);
+        return;
+    }
+    // operators
+    let opEntry = '';
+    switch(key) {
+        case '/':
+            opEntry = 'divide';
+            break;
+        case '*':
+            opEntry = 'multiply';
+            break;
+        case '+':
+            opEntry = 'add';
+            break;
+        case '-':
+            opEntry = 'subtract';
+            break;
+    }
+    operatorButtonAction(opEntry);
+    // equals
+    // use = and enter
+    if (key == '=' || key == 'Enter') {
+        equalsButtonAction();
+        return;
+    }
+    if (key.toUpperCase() == 'C') {
+        reset();
+        return;
+    }
+}
 
 /*======================================
         Event Handler declarations 
@@ -198,3 +236,6 @@ document.querySelectorAll('.operator')
             op.addEventListener('click',
             operatorButtonAction);
         });
+
+// Keypress
+document.addEventListener('keydown', keyDownAction);
