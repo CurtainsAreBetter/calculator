@@ -110,6 +110,13 @@ function equate() {
 /*=================================
           Action Functions
 ===================================*/
+function decimalAction() {
+    let out = screen.innerText;
+    if (!out.includes('.')){
+        screen.innerText += '.';
+    }
+}
+
 function backspaceAction() {
     let out = screen.innerText;
     screen.innerText = out.slice(0, out.length-1);
@@ -198,18 +205,21 @@ function keyDownAction(e) {
     switch(key) {
         case '/':
             opEntry = 'divide';
+            operatorButtonAction(opEntry);
             break;
         case '*':
             opEntry = 'multiply';
+            operatorButtonAction(opEntry);
             break;
         case '+':
             opEntry = 'add';
+            operatorButtonAction(opEntry);
             break;
         case '-':
             opEntry = 'subtract';
+            operatorButtonAction(opEntry);
             break;
     }
-    operatorButtonAction(opEntry);
     // equals
     // use = and enter
     if (key == '=' || key == 'Enter') {
